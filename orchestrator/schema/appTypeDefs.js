@@ -1,15 +1,31 @@
 const appTypeDefs = `#graphql
-  type Test {
-    id: ID
-    test: String
+  type Token {
+    access_token: String
+  }
+
+  type Message {
+    message: String
+  }
+
+  input Login {
+    email: String,
+    password: String
+  }
+
+  input Register {
+    email: String,
+    password: String,
+    username: String,
+    phoneNumber: String,
+    address: String
   }
 
   type Query {
-    test: Test
+    login(content: Login!): Token
   }
 
   type Mutation {
-    test: Test
+    register(content: Register!): Message
   }
 `;
 
