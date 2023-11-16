@@ -1,0 +1,12 @@
+services:
+  orchestrator:
+    build: ./orchestrator
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+
+  app:
+    build: ./services/app
+    environment:
+      - NODE_ENV=production
+      - PORT=4001
