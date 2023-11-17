@@ -10,5 +10,9 @@ router.post("/google", UserController.google);
 router.use(authentication);
 
 router.get("/users", UserController.getUser);
+router.get("histories");
+router.post("histories");
+router.get("histories/:id");
+router.patch("histories/:id");
 
 module.exports = router;

@@ -7,6 +7,30 @@ const appTypeDefs = `#graphql
     message: String
   }
 
+  type User {
+    _id: ID,
+    email: String,
+    password: String
+  }
+
+  type Profile {
+    _id: ID,
+    userId: ID,
+    name: String,
+    username: String,
+    phoneNumber: String,
+    address: String,
+    gender: String,
+    totalPoint: Int,
+    totalDistance: Int,
+    totalTime: Int
+  }
+
+  type UserProfile {
+    user: User,
+    profile: Profile
+  }
+
   input Login {
     email: String,
     password: String
@@ -21,7 +45,8 @@ const appTypeDefs = `#graphql
   }
 
   type Query {
-    login(content: Login!): Token
+    login(content: Login!): Token,
+    getUser: UserProfile
   }
 
   type Mutation {
