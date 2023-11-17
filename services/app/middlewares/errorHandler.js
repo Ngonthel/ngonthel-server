@@ -9,6 +9,9 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === "validation_error") {
     status = 400;
     message = err.message;
+  } else if (err.name === "JsonWebTokenError" || err.name === "validation_json_error") {
+    status = 401;
+    message = "Invalid token!"
   }
 
   res.status(status).json({ message });
