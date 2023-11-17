@@ -11,7 +11,7 @@ const connect = async () => {
     await client.connect();
     db = client.db("ngontheldb");
 
-    console.log("Connected successfully to server");
+    console.log("Connected successfully to mongo server");
   } catch (error) {
     console.log(`Error connect config/config.js:`, err);
   }
