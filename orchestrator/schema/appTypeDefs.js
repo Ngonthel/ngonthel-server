@@ -48,6 +48,19 @@ const appTypeDefs = `#graphql
     dll: String
   }
 
+  type CreateHistory {
+    acknowledged: Boolean,
+    insertedId: String
+  }
+
+  type UpdateHistory {
+    acknowledged: Boolean,
+    modifiedCount: Int,
+    upsertedId: ID,
+    upsertedCount: Int,
+    matchedCount: Int
+  }
+
   input Login {
     email: String,
     password: String
@@ -65,6 +78,18 @@ const appTypeDefs = `#graphql
     access_token: String
   }
 
+  input TrackLineData {
+    latitude: String,
+    longtitude: String,
+    dll: String
+  }
+
+  input UpdateData {
+    distance: Int,
+    avgSpeed: Int,
+    trackLine: [TrackLineData]
+  }
+
   type Query {
     login(content: Login!): Token,
     getUserDetail(headers: Headers!): UserProfile,
@@ -73,7 +98,9 @@ const appTypeDefs = `#graphql
   }
 
   type Mutation {
-    register(content: Register!): Message
+    register(content: Register!): Message,
+    createHistory(headers: Headers!): CreateHistory,
+    updateHistory(id: ID!, headers: Headers!, content: UpdateData): UpdateHistory
   }
 `;
 

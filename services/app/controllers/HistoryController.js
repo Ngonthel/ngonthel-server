@@ -36,6 +36,7 @@ class HistoryController {
     try {
       const { id } = req.params;
       const { distance, avgSpeed, trackLine } = req.body;
+      console.log({ distance, avgSpeed, trackLine });
 
       const history = await History.update(
         { _id: new ObjectId(id) },

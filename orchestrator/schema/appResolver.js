@@ -46,6 +46,22 @@ const appResolver = {
         console.log(err);
       }
     },
+    createHistory: async (_, { headers }) => {
+      try {
+        const { data } = await axios.post(app_url + "histories", _, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    updateHistory: async (_, { headers, id, content }) => {
+      try {
+        const { data } = await axios.put(app_url + `histories/${id}`, content, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 
