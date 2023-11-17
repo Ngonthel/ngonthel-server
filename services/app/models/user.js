@@ -1,5 +1,6 @@
 const { getDb } = require("../config/config");
 const { hashPassword } = require("../helpers/bcrypt");
+const { ObjectId } = require("mongodb");
 
 class User {
   static async users() {
@@ -12,6 +13,17 @@ class User {
     const db = await getDb();
     const collection = await db.collection("profiles");
     return collection;
+  }
+
+  static async findByPk(id) {
+    try {
+      const collection = await this.users();
+      const findUserById = await collection.findOne({ _id: new ObjectId(id) });
+
+      return findUserById;
+    } catch (err) {
+      next(err);
+    }
   }
 
   static async create({ name, email, password, username, phoneNumber, address, gender }) {

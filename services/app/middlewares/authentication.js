@@ -5,7 +5,7 @@ async function authentication(req, res, next) {
     const { access_token } = req.headers;
     const payload = verifyToken(access_token);
 
-    req.user = { id: payload.id };
+    req.user = { id: String(payload.id) };
 
     next();
   } catch (error) {
