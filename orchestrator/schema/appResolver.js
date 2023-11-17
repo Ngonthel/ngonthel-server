@@ -20,6 +20,22 @@ const appResolver = {
         console.log(err);
       }
     },
+    getHistories: async (_, { headers }) => {
+      try {
+        const { data } = await axios.get(app_url + "histories", { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    getHistoryDetail: async (_, { id, headers }) => {
+      try {
+        const { data } = await axios.get(app_url + `histories/${id}`, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   Mutation: {
     register: async (_, { content }) => {

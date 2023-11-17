@@ -31,6 +31,23 @@ const appTypeDefs = `#graphql
     profile: Profile
   }
 
+  type History {
+    _id: ID,
+    userId: ID,
+    startDate: String,
+    distance: Int,
+    avgSpeed: Int,
+    trackLine: [TrackLine],
+    endDate: String,
+    lastModifies: String
+  }
+
+  type TrackLine {
+    latitude: String,
+    longtitude: String,
+    dll: String
+  }
+
   input Login {
     email: String,
     password: String
@@ -50,7 +67,9 @@ const appTypeDefs = `#graphql
 
   type Query {
     login(content: Login!): Token,
-    getUserDetail(headers: Headers!): UserProfile
+    getUserDetail(headers: Headers!): UserProfile,
+    getHistories(headers: Headers!): [History],
+    getHistoryDetail(headers: Headers!, id: ID!): History
   }
 
   type Mutation {
