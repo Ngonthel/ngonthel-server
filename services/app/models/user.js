@@ -14,7 +14,7 @@ class User {
     return collection;
   }
 
-  static async create({ email, password, username, phoneNumber, address }) {
+  static async create({ name, email, password, username, phoneNumber, address, gender }) {
     try {
       // Form validation
       if (!email) {
@@ -41,9 +41,11 @@ class User {
       const profileCollection = await this.profiles();
       await profileCollection.insertOne({
         userId: newUser.insertedId,
+        name,
         username,
         phoneNumber,
         address,
+        gender,
         totalPoint: 0,
         totalDistance: 0,
         totalTime: 0,
