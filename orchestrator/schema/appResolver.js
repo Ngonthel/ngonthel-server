@@ -12,11 +12,10 @@ const appResolver = {
         console.log(err);
       }
     },
-    getUser: async (pertama, kedua, ketiga, keempat) => {
+    getUserDetail: async (_, { headers }) => {
       try {
-        // console.log({ pertama, kedua, ketiga, keempat });
-        // const { data } = await axios.get(app_url + "users");
-        return "data";
+        const { data } = await axios.get(app_url + "users", { headers });
+        return data;
       } catch (err) {
         console.log(err);
       }

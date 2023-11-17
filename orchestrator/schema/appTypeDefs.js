@@ -44,9 +44,13 @@ const appTypeDefs = `#graphql
     address: String
   }
 
+  input Headers {
+    access_token: String
+  }
+
   type Query {
     login(content: Login!): Token,
-    getUser: UserProfile
+    getUserDetail(headers: Headers!): UserProfile
   }
 
   type Mutation {
