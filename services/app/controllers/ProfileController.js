@@ -5,19 +5,18 @@ const formating = require('../helpers/Timmer/formating-time')
 
 class ProfileController {
     static async register(req, res, next) {
-        const { name:NameUser , phoneNumber , address , userId } = rq.body
+        const { name:NameUser , phoneNumber , address , userId , password } = req.body
         try {
             Profile
             return res.status(201).json({
-                userId: "",
+                userId: userId,
                 username: `${nameUser}#${Math.floor(Math.random()*1000)}`, // formatting  use slugging 
-                phoneNumber: "",
-                address: "",
+                phoneNumber,
+                address,
                 totalPoint: 0,
                 totalDistance: 0,
                 totalTime: 0,
-                gender: "",
-                name:""
+                name:NameUser
             })
         } catch (error) {
             next(error)
