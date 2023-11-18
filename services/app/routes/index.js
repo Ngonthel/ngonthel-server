@@ -1,20 +1,26 @@
+if (process.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
-const authentication = require("../middlewares/authentication");
-const router = express.Router();
-const UserController = require("../controllers/UserController");
-const HistoryController = require("../controllers/HistoryController");
+const app = express();
+const PORT = process.env.PORT || 4001;
+const cors = require("cors");
+const { connect } = require("./config/config");
 
-router.post("/login", UserController.login);
-router.post("/register", UserController.register);
-router.post("/google", UserController.google);
+const mainRoutes = require("./routes/");
+const errorHandler = require("./middlewares/errorHandler");
 
-router.use(authentication);
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-router.get("/users", UserController.getUser);
+app.use("/", mainRoutes);
+app.use(errorHandler);
 
-router.get("/histories", HistoryController.readHistories);
-router.post("/histories", HistoryController.createHistory);
-router.get("/histories/:id", HistoryController.readHistoryDetail);
-router.put("/histories/:id", HistoryController.updateHistory);
-
-module.exports = router;
+connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`🚀 App listens to PORT ${PORT}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
