@@ -1,5 +1,6 @@
 const { getDb } = require("../config/config");
 const { hashPassword } = require("../helpers/bcrypt");
+const { ObjectId } = require("mongodb");
 
 class User {
   static async users() {
@@ -14,7 +15,18 @@ class User {
     return collection;
   }
 
-  static async create({ email, password, username, phoneNumber, address }) {
+  static async findByPk(id) {
+    try {
+      const collection = await this.users();
+      const findUserById = await collection.findOne({ _id: new ObjectId(id) });
+
+      return findUserById;
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async create({ name, email, password, username, phoneNumber, address, gender }) {
     try {
       // Form validation
       if (!email) {
@@ -41,9 +53,11 @@ class User {
       const profileCollection = await this.profiles();
       await profileCollection.insertOne({
         userId: newUser.insertedId,
+        name,
         username,
         phoneNumber,
         address,
+        gender,
         totalPoint: 0,
         totalDistance: 0,
         totalTime: 0,

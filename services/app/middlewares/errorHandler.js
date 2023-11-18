@@ -1,5 +1,5 @@
 const errorHandler = (err, req, res, next) => {
-  console.log(err, "ERROR DI ERROR HANDLER APP");
+  console.log(err, ">>> ERROR DI ERROR HANDLER APP");
   let status = 500;
   let message = "Internal Server Error!";
 

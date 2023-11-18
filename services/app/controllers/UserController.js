@@ -17,7 +17,7 @@ class UserController {
       if (!isPasswordValid) {
         throw { name: "auth_error", message: "Invalid Email / Password!" };
       }
-      const username = await Profile.findByPk(findUser._id);
+      const username = await Profile.findOne({ userId: findUser._id });
 
       const payload = {
         id: findUser._id,
@@ -44,6 +44,19 @@ class UserController {
   static async google(req, res, next) {
     try {
       //
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getUser(req, res, next) {
+    try {
+      const { id } = req.user;
+
+      const user = await User.findByPk(id);
+      const profile = await Profile.findOne({ userId: user._id });
+
+      res.status(200).json({ user, profile });
     } catch (err) {
       next(err);
     }

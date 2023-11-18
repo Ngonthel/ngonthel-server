@@ -8,10 +8,10 @@ class User {
     return collection;
   }
 
-  static async findByPk(id) {
+  static async findOne(findObj) {
     try {
       const collection = await this.profiles();
-      const findProfile = await collection.findOne({ userId: id });
+      const findProfile = await collection.findOne(findObj);
 
       return findProfile;
     } catch (err) {

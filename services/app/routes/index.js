@@ -1,17 +1,26 @@
+if (process.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
-const UserController = require("../controllers/UserController");
-const authentication = require('../middlewares/authentication.js');
-const ControllerLeaderBoard = require("../controllers/leaderboard.js");
-const router = express.Router();
+const app = express();
+const PORT = process.env.PORT || 4001;
+const cors = require("cors");
+const { connect } = require("./config/config");
 
+const mainRoutes = require("./routes/");
+const errorHandler = require("./middlewares/errorHandler");
 
-router.post("/login", UserController.login);
-router.post("/register", UserController.register);
-router.post("/google", UserController.google);
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-router.use(authentication)
+app.use("/", mainRoutes);
+app.use(errorHandler);
 
-router.get('/',ControllerLeaderBoard.start)
-router.post('/',ControllerLeaderBoard.stop)
-
-module.exports = router;
+connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`🚀 App listens to PORT ${PORT}`));
+  })
+  .catch((err) => {
+    console.log(err);
+  });
