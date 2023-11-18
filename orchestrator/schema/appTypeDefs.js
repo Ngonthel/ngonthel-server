@@ -69,7 +69,7 @@ const appTypeDefs = `#graphql
   input Register {
     email: String,
     password: String,
-    username: String,
+    name: String,
     phoneNumber: String,
     address: String
   }
