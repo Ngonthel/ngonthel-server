@@ -43,6 +43,9 @@ class History {
     try {
       const collection = await this.collection();
       const history = await collection.findOne({ _id: id });
+      if (history) {
+        throw { name: "not_found", message: "Error history not found!" };
+      }
       return history;
     } catch (err) {
       throw err;
