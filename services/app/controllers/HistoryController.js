@@ -21,8 +21,10 @@ class HistoryController {
         userId: new ObjectId(id),
         startDate: new Date(),
         endDate: null,
+        time: 0,
         distance: 0,
         avgSpeed: 0,
+        point: 0,
         trackLine: [],
       });
 
@@ -35,16 +37,22 @@ class HistoryController {
   static async updateHistory(req, res, next) {
     try {
       const { id } = req.params;
-      const { distance, avgSpeed, trackLine } = req.body;
-      console.log({ distance, avgSpeed, trackLine });
+      const { time, distance, avgSpeed, trackLine } = req.body;
+
+      // Points formula
+      const D = (6 / 10) * distance; // 60% from distance (meters)
+      const T = (4 / 10) * time; // 40% from time (seconds)
+      const point = (D * T) / 10;
 
       const history = await History.update(
         { _id: new ObjectId(id) },
         {
           $set: {
             endDate: new Date(),
+            time,
             distance,
             avgSpeed,
+            point,
             trackLine,
           },
           $currentDate: { lastModifies: true },

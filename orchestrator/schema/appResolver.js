@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { GraphQLError } = require("graphql");
 
 const app_url = process.env.APP_URL || "http://localhost:4001/";
 
@@ -10,6 +11,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
     getUserDetail: async (_, { headers }) => {
@@ -18,6 +22,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
     getHistories: async (_, { headers }) => {
@@ -26,6 +33,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
     getHistoryDetail: async (_, { id, headers }) => {
@@ -34,6 +44,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
   },
@@ -44,6 +57,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
     createHistory: async (_, { headers }) => {
@@ -52,6 +68,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
     updateHistory: async (_, { headers, id, content }) => {
@@ -60,6 +79,9 @@ const appResolver = {
         return data;
       } catch (err) {
         console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
       }
     },
   },

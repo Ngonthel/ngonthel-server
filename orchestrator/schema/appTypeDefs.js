@@ -69,25 +69,24 @@ const appTypeDefs = `#graphql
   input Register {
     email: String,
     password: String,
+    username: String,
     name: String,
     phoneNumber: String,
-    address: String
+    address: String,
+    gender: String
   }
 
   input Headers {
     access_token: String
   }
 
-  input TrackLineData {
-    latitude: String,
-    longtitude: String,
-    dll: String
-  }
+  scalar JSON
 
   input UpdateData {
     distance: Int,
     avgSpeed: Int,
-    trackLine: [TrackLineData]
+    time: Int,
+    trackLine: [JSON]
   }
 
   type Query {
