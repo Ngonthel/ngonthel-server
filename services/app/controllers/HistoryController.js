@@ -25,6 +25,7 @@ class HistoryController {
         distance: 0,
         avgSpeed: 0,
         point: 0,
+        caloryBurnt: 0,
         trackLine: [],
       });
 
@@ -44,6 +45,11 @@ class HistoryController {
       const T = (4 / 10) * time; // 40% from time (seconds)
       const point = (D * T) / 10;
 
+      // Calories formula
+      const MET = avgSpeed < 4.444 ? 4 : avgSpeed >= 4.444 && avgSpeed <= 5.277 ? 6 : 8;
+      const W = 65; // average men weight in Indonesia
+      const caloryBurnt = Math.round(MET * W * (time / 3600) * 1000); // cal
+
       const history = await History.update(
         { _id: new ObjectId(id) },
         {
@@ -53,6 +59,7 @@ class HistoryController {
             distance,
             avgSpeed,
             point,
+            caloryBurnt,
             trackLine,
           },
           $currentDate: { lastModifies: true },

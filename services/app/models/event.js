@@ -7,10 +7,10 @@ class Event {
     return collection;
   }
 
-  static async findAll() {
+  static async findAll(where) {
     try {
       const collection = await this.collection();
-      const events = await collection.find().toArray();
+      const events = await collection.find(where).toArray();
       return events;
     } catch (err) {
       throw err;

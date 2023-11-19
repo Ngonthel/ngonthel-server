@@ -4,7 +4,18 @@ const { ObjectId } = require("mongodb");
 class EventController {
   static async readEvents(req, res, next) {
     try {
-      const events = await Event.findAll();
+      let { filter } = req.query;
+
+      if (filter === "my-event") {
+        const { id } = req.user;
+        filter = { createdBy: id };
+      } else if (filter === "active") {
+        filter = { isActive: true };
+      } else if (filter === "inactive") {
+        filter = { isActive: false };
+      }
+
+      const events = await Event.findAll(filter);
       res.status(200).json(events);
     } catch (err) {
       next(err);
