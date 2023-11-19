@@ -5,6 +5,7 @@ const UserController = require("../controllers/UserController");
 const HistoryController = require("../controllers/HistoryController");
 const EventController = require("../controllers/EventController");
 const { updateEventAuthorization } = require("../middlewares/authorization");
+const ProfileController = require('../controllers/ProfileController')
 
 router.post("/login", UserController.login);
 router.post("/register", UserController.register);
@@ -26,5 +27,11 @@ router.get("/events", EventController.readEvents);
 router.post("/events", EventController.createEvent);
 router.get("/events/:id", EventController.readEventDetail);
 router.patch("/events/:id", updateEventAuthorization, EventController.patchEventstatus);
+
+// Profile 
+router.get('/start-goes',ProfileController.startGoes) // start geos
+router.post('/stop-goes',ProfileController.stopGoes) // stop goes
+
+router.post('/register-data',ProfileController.register) // register data
 
 module.exports = router;
