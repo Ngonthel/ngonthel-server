@@ -49,6 +49,28 @@ const appResolver = {
         });
       }
     },
+    getEvents: async (_, { headers }) => {
+      try {
+        const { data } = await axios.get(app_url + "events", { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    },
+    getEventDetail: async (_, { id, headers }) => {
+      try {
+        const { data } = await axios.get(app_url + `events/${id}`, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    },
   },
   Mutation: {
     register: async (_, { content }) => {
@@ -76,6 +98,29 @@ const appResolver = {
     updateHistory: async (_, { headers, id, content }) => {
       try {
         const { data } = await axios.put(app_url + `histories/${id}`, content, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    },
+    createEvent: async (_, { content, headers }) => {
+      try {
+        const { data } = await axios.post(app_url + "events", content, { headers });
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    },
+    patchEvent: async (_, { id, headers }) => {
+      try {
+        const { data } = await axios.patch(app_url + `events/${id}`, _, { headers });
+        console.log(data);
         return data;
       } catch (err) {
         console.log(err);

@@ -38,7 +38,7 @@ class EventController {
         dest,
       });
 
-      res.status(201).json({ message: `New event '${name}' created successfully!` });
+      res.status(201).json({ message: `New event "${name}" created successfully!` });
     } catch (err) {
       next(err);
     }
@@ -55,7 +55,11 @@ class EventController {
         }
       );
 
-      res.status(200).json(updateEvent);
+      if (updateEvent.acknowledged) {
+        res.status(200).json({ message: `Event with id "${id}" set to inactive!` });
+      } else {
+        res.status(200).json({ message: `No event were updated!` });
+      }
     } catch (err) {
       next(err);
     }

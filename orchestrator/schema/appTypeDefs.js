@@ -36,7 +36,7 @@ const appTypeDefs = `#graphql
     userId: ID,
     startDate: String,
     distance: Int,
-    avgSpeed: Int,
+    avgSpeed: Float,
     trackLine: [TrackLine],
     endDate: String,
     lastModifies: String
@@ -59,6 +59,23 @@ const appTypeDefs = `#graphql
     upsertedId: ID,
     upsertedCount: Int,
     matchedCount: Int
+  }
+
+  type Location {
+    altitude: Float,
+    longtitude: Float,
+    latitude: Float
+  }
+
+  type Event {
+    _id: ID,
+    name: String,
+    eventCode: String,
+    eventDate: String,
+    createdBy: String,
+    isActive: Boolean,
+    from: Location
+    dest: Location
   }
 
   input Login {
@@ -84,22 +101,39 @@ const appTypeDefs = `#graphql
 
   input UpdateData {
     distance: Int,
-    avgSpeed: Int,
+    avgSpeed: Float,
     time: Int,
     trackLine: [JSON]
+  }
+
+  input LocationInput {
+    altitude: Float,
+    longtitude: Float,
+    latitude: Float
+  }
+
+  input EventData {
+    name: String,
+    eventDate: String,
+    from: LocationInput,
+    dest: LocationInput
   }
 
   type Query {
     login(content: Login!): Token,
     getUserDetail(headers: Headers!): UserProfile,
     getHistories(headers: Headers!): [History],
-    getHistoryDetail(headers: Headers!, id: ID!): History
+    getHistoryDetail(id: ID!, headers: Headers!): History,
+    getEvents(headers: Headers!): [Event]
+    getEventDetail(id: ID!, headers: Headers!): Event
   }
 
   type Mutation {
     register(content: Register!): Message,
     createHistory(headers: Headers!): CreateHistory,
-    updateHistory(id: ID!, headers: Headers!, content: UpdateData): UpdateHistory
+    updateHistory(id: ID!, headers: Headers!, content: UpdateData): UpdateHistory,
+    createEvent(content: EventData!, headers: Headers!): Message,
+    patchEvent(id: ID!, headers: Headers!): Message
   }
 `;
 
