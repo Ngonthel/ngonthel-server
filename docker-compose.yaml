@@ -10,3 +10,6 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=4001
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - APP_URL=${APP_URL}
