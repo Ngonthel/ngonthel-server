@@ -1,5 +1,7 @@
 const axios = require("axios");
 const { GraphQLError } = require("graphql");
+const Redis = require("ioredis");
+const redis = new Redis(process.env.REDIS_URL);
 
 const app_url = process.env.APP_URL || "http://localhost:4001/";
 
@@ -51,8 +53,16 @@ const appResolver = {
     },
     getEvents: async (_, { headers, filter }) => {
       try {
-        const { data } = await axios.get(app_url + `events?filter=${filter}`, { headers });
-        return data;
+        let eventCache = await redis.get("events");
+        if (eventCache) {
+          eventCache = JSON.parse(eventCache);
+          return eventCache;
+        } else {
+          const { data } = await axios.get(app_url + `events?filter=${filter}`, { headers });
+          const dataToCache = JSON.stringify(data);
+          await redis.set("events", dataToCache);
+          return data;
+        }
       } catch (err) {
         console.log(err);
         throw new GraphQLError(err.response.data.message, {
@@ -98,6 +108,7 @@ const appResolver = {
     updateHistory: async (_, { headers, id, content }) => {
       try {
         const { data } = await axios.put(app_url + `histories/${id}`, content, { headers });
+        console.log(data, "UPDATE HISTORY");
         return data;
       } catch (err) {
         console.log(err);
@@ -109,6 +120,7 @@ const appResolver = {
     createEvent: async (_, { content, headers }) => {
       try {
         const { data } = await axios.post(app_url + "events", content, { headers });
+        await redis.del("events");
         return data;
       } catch (err) {
         console.log(err);
@@ -120,6 +132,7 @@ const appResolver = {
     patchEvent: async (_, { id, headers }) => {
       try {
         const { data } = await axios.patch(app_url + `events/${id}`, _, { headers });
+        await redis.del("events");
         return data;
       } catch (err) {
         console.log(err);

@@ -57,7 +57,7 @@ const appTypeDefs = `#graphql
   type UpdateHistory {
     acknowledged: Boolean,
     point: Int,
-    date: String,
+    time: String,
   }
 
   type Location {
