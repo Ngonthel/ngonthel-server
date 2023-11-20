@@ -28,10 +28,4 @@ router.post("/events", EventController.createEvent);
 router.get("/events/:id", EventController.readEventDetail);
 router.patch("/events/:id", updateEventAuthorization, EventController.patchEventstatus);
 
-// Profile 
-router.get('/start-goes',ProfileController.startGoes) // start geos
-router.post('/stop-goes',ProfileController.stopGoes) // stop goes
-
-router.post('/register-data',ProfileController.register) // register data
-
 module.exports = router;

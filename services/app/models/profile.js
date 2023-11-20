@@ -1,4 +1,5 @@
 const { getDb } = require("../config/config");
+const { ObjectId } = require("mongodb");
 
 class Profile {
   static async profiles() {
@@ -7,32 +8,21 @@ class Profile {
     return collection;
   }
 
-  static async create(args) {
-    try {
-      const collection = await this.profiles();
-      const profile = await collection.insertOne(args);
-
-      return profile;
-    } catch (err) {
-      throw err;
-    }
-  }
-
   static async findOne(userId) {
     try {
       const collection = await this.profiles();
-      const findProfile = await collection.findOne({ userId });
-
+      const findProfile = await collection.findOne({ userId:new ObjectId(userId) });
+      
       return findProfile;
     } catch (err) {
       throw err;
     }
   }
 
-  static async update(where, set) {
+  static async update(userId, set) {
     try {
       const collection = await this.profiles();
-      const profile = await collection.updateOne(where, { $set: set });
+      const profile = await collection.updateOne({ userId:new ObjectId(userId) }, { $set: set });
 
       return profile;
     } catch (err) {
