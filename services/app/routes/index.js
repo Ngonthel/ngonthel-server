@@ -5,6 +5,7 @@ const UserController = require("../controllers/UserController");
 const HistoryController = require("../controllers/HistoryController");
 const EventController = require("../controllers/EventController");
 const { updateEventAuthorization } = require("../middlewares/authorization");
+const ProfileController = require('../controllers/ProfileController')
 
 router.post("/login", UserController.login);
 router.post("/register", UserController.register);

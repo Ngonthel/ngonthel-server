@@ -1,23 +1,34 @@
 const { getDb } = require("../config/config");
 const { ObjectId } = require("mongodb");
 
-class User {
+class Profile {
   static async profiles() {
     const db = await getDb();
     const collection = await db.collection("profiles");
     return collection;
   }
 
-  static async findOne(findObj) {
+  static async findOne(userId) {
     try {
       const collection = await this.profiles();
-      const findProfile = await collection.findOne(findObj);
-
+      const findProfile = await collection.findOne({ userId:new ObjectId(userId) });
+      
       return findProfile;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async update(userId, set) {
+    try {
+      const collection = await this.profiles();
+      const profile = await collection.updateOne({ userId:new ObjectId(userId) }, { $set: set });
+
+      return profile;
     } catch (err) {
       throw err;
     }
   }
 }
 
-module.exports = User;
+module.exports = Profile;
