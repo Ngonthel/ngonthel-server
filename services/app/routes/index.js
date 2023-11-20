@@ -28,4 +28,7 @@ router.post("/events", EventController.createEvent);
 router.get("/events/:id", EventController.readEventDetail);
 router.patch("/events/:id", updateEventAuthorization, EventController.patchEventstatus);
 
+
+// LeaderBoard
+router.get('/leaderboard',ProfileController.leaderboard)
 module.exports = router;

@@ -24,6 +24,16 @@ class ProfileController {
             next(error)
         }
     }
+
+    static async leaderboard(req,res,next){
+        try {
+            const leaderboard = await Profile.findAll()
+            console.log(leaderboard)
+            res.status(200).json(leaderboard)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = ProfileController;

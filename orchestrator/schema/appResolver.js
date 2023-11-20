@@ -7,17 +7,6 @@ const app_url = process.env.APP_URL || "http://localhost:4001/";
 
 const appResolver = {
   Query: {
-    login: async (_, { content }) => {
-      try {
-        const { data } = await axios.post(app_url + "login", content);
-        return data;
-      } catch (err) {
-        console.log(err);
-        throw new GraphQLError(err.response.data.message, {
-          extensions: { code: err.response.status, http: { status: err.response.status } },
-        });
-      }
-    },
     getUserDetail: async (_, { headers }) => {
       try {
         const { data } = await axios.get(app_url + "users", { headers });
@@ -81,8 +70,31 @@ const appResolver = {
         });
       }
     },
+    getLeaderboard: async (_,{ headers }) => {
+      try {
+        const { data } = await axios.get(app_url + `leaderboard`, { headers })
+        return data
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    }
   },
   Mutation: {
+    login: async (_, { content }) => {
+      try {
+        const { data } = await axios.post(app_url + "login", content);
+        console.log(data);
+        return data;
+      } catch (err) {
+        console.log(err);
+        throw new GraphQLError(err.response.data.message, {
+          extensions: { code: err.response.status, http: { status: err.response.status } },
+        });
+      }
+    },
     register: async (_, { content }) => {
       try {
         const { data } = await axios.post(app_url + "register", content);

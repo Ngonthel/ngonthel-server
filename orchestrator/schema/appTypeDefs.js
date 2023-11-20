@@ -119,15 +119,16 @@ const appTypeDefs = `#graphql
   }
 
   type Query {
-    login(content: Login!): Token,
     getUserDetail(headers: Headers!): UserProfile,
     getHistories(headers: Headers!): [History],
     getHistoryDetail(id: ID!, headers: Headers!): History,
-    getEvents(headers: Headers!, filter: String): [Event]
-    getEventDetail(id: ID!, headers: Headers!): Event
+    getEvents(headers: Headers!, filter: String): [Event],
+    getEventDetail(id: ID!, headers: Headers!): Event,
+    getLeaderboard(headers: Headers!): [Profile],
   }
 
   type Mutation {
+    login(content: Login!): Token,
     register(content: Register!): Message,
     createHistory(headers: Headers!): CreateHistory,
     updateHistory(id: ID!, headers: Headers!, content: UpdateData): UpdateHistory,

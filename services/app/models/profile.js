@@ -10,9 +10,10 @@ class Profile {
 
   static async findOne(userId) {
     try {
+      console.log(userId)
       const collection = await this.profiles();
-      const findProfile = await collection.findOne({ userId:new ObjectId(userId) });
-      
+      const findProfile = await collection.findOne({ userId:userId });
+      console.log(findProfile)
       return findProfile;
     } catch (err) {
       throw err;
@@ -25,6 +26,16 @@ class Profile {
       const profile = await collection.updateOne({ userId:new ObjectId(userId) }, { $set: set });
 
       return profile;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  static async findAll() {
+    try {
+      const collection = await this.profiles();
+      const leaderboard = await collection.find().sort({ totalPoint: -1 }).toArray();
+      return leaderboard;
     } catch (err) {
       throw err;
     }
