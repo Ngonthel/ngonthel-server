@@ -8,12 +8,6 @@ class UserController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      if (!email) {
-        throw { name: "validation_error", message: "Email is required!" };
-      }
-      if (!password) {
-        throw { name: "validation_error", message: "Password is required!" };
-      }
 
       const findUser = await User.findOne(email);
       if (!findUser) {
@@ -40,7 +34,7 @@ class UserController {
   static async register(req, res, next) {
     try {
       await User.create(req.body);
-      res.status(201).send({ message: "New user created successfully!" });
+      res.status(200).send({ message: "New user created successfully!" });
     } catch (err) {
       next(err);
     }
@@ -59,9 +53,7 @@ class UserController {
       const { id } = req.user;
 
       const user = await User.findByPk(id);
-      console.log(user._id);
       const profile = await Profile.findOne({ userId: user._id });
-      console.log(profile);
 
       res.status(200).json({ user, profile });
     } catch (err) {
