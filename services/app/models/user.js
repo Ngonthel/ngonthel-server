@@ -1,6 +1,7 @@
 const { getDb } = require("../config/config");
 const { hashPassword } = require("../helpers/bcrypt");
 const { ObjectId } = require("mongodb");
+const { connect } = require("../config/config");
 
 class User {
   static async users() {
@@ -51,7 +52,7 @@ class User {
       const newUser = await userCollection.insertOne({ email, password: hashedPassword });
 
       const profileCollection = await this.profiles();
-      await profileCollection.insertOne({
+      const data = await profileCollection.insertOne({
         userId: newUser.insertedId,
         name,
         username,
@@ -62,6 +63,8 @@ class User {
         totalDistance: 0,
         totalTime: 0,
       });
+
+      return data;
     } catch (err) {
       throw err;
     }
