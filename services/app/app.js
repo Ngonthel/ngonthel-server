@@ -19,7 +19,7 @@ app.use(errorHandler);
 
 connect()
   .then(() => {
-    app.listen(PORT, () => console.log(`🚀 App listens to PORT ${PORT}`));
+    // app.listen(PORT, () => console.log(`🚀 App listens to PORT ${PORT}`));
   })
   .catch((err) => {
     console.log(err);

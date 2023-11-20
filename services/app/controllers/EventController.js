@@ -35,8 +35,11 @@ class EventController {
   static async createEvent(req, res, next) {
     try {
       const { name, from, dest, eventDate } = req.body;
-      const eventCode = name.split(" ").join("-").toLowerCase() + `-${Math.floor(Math.random() * 100)}`;
+      if (!name || !from.altitude || !from.latitude || !from.longtitude || !dest.altitude || !dest.latitude || !dest.longtitude || !eventDate){
+        throw {name:"validation_error", message: "required data" }
+      }
 
+      const eventCode = name.split(" ").join("-").toLowerCase() + `-${Math.floor(Math.random() * 100)}`;
       const { id } = req.user;
 
       const event = await Event.create({
