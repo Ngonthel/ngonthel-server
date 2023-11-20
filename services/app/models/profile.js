@@ -10,10 +10,8 @@ class Profile {
 
   static async findOne(userId) {
     try {
-      console.log(userId)
       const collection = await this.profiles();
-      const findProfile = await collection.findOne({ userId:userId });
-      console.log(findProfile)
+      const findProfile = await collection.findOne(userId);
       return findProfile;
     } catch (err) {
       throw err;
@@ -23,7 +21,7 @@ class Profile {
   static async update(userId, set) {
     try {
       const collection = await this.profiles();
-      const profile = await collection.updateOne({ userId:new ObjectId(userId) }, { $set: set });
+      const profile = await collection.updateOne({ userId: new ObjectId(userId) }, { $set: set });
 
       return profile;
     } catch (err) {
