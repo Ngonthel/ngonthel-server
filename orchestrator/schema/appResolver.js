@@ -49,9 +49,9 @@ const appResolver = {
         });
       }
     },
-    getEvents: async (_, { headers }) => {
+    getEvents: async (_, { headers, filter }) => {
       try {
-        const { data } = await axios.get(app_url + "events", { headers });
+        const { data } = await axios.get(app_url + `events?filter=${filter}`, { headers });
         return data;
       } catch (err) {
         console.log(err);
@@ -120,7 +120,6 @@ const appResolver = {
     patchEvent: async (_, { id, headers }) => {
       try {
         const { data } = await axios.patch(app_url + `events/${id}`, _, { headers });
-        console.log(data);
         return data;
       } catch (err) {
         console.log(err);

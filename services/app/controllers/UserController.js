@@ -2,6 +2,7 @@ const { verifyPassword } = require("../helpers/bcrypt");
 const { createToken } = require("../helpers/jwt");
 const User = require("../models/user");
 const Profile = require("../models/profile");
+const { ObjectId } = require("mongodb");
 
 class UserController {
   static async login(req, res, next) {

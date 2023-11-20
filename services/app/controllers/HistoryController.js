@@ -17,7 +17,6 @@ class HistoryController {
     static async createHistory(req, res, next) {
         try {
             const { id } = req.user;
-
             const history = await History.create({
                 userId: new ObjectId(id),
                 startDate: new Date(),

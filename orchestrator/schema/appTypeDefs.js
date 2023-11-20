@@ -37,6 +37,7 @@ const appTypeDefs = `#graphql
     startDate: String,
     distance: Int,
     avgSpeed: Float,
+    caloryBurnt: Float,
     trackLine: [TrackLine],
     endDate: String,
     lastModifies: String
@@ -122,7 +123,7 @@ const appTypeDefs = `#graphql
     getUserDetail(headers: Headers!): UserProfile,
     getHistories(headers: Headers!): [History],
     getHistoryDetail(id: ID!, headers: Headers!): History,
-    getEvents(headers: Headers!): [Event]
+    getEvents(headers: Headers!, filter: String): [Event]
     getEventDetail(id: ID!, headers: Headers!): Event
   }
 
