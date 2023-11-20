@@ -55,10 +55,8 @@ const appTypeDefs = `#graphql
 
   type UpdateHistory {
     acknowledged: Boolean,
-    modifiedCount: Int,
-    upsertedId: ID,
-    upsertedCount: Int,
-    matchedCount: Int
+    point: Int,
+    date: String,
   }
 
   type Location {
