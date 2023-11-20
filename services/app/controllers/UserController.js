@@ -9,6 +9,13 @@ class UserController {
     try {
       const { email, password } = req.body;
 
+      if (!email) {
+        throw { name: "validation_error", message: "Email is required!" };
+      }
+      if (!password) {
+        throw { name: "validation_error", message: "Password is required!" };
+      }
+
       const findUser = await User.findOne(email);
       if (!findUser) {
         throw { name: "auth_error", message: "Invalid Email / Password!" };
@@ -34,7 +41,7 @@ class UserController {
   static async register(req, res, next) {
     try {
       await User.create(req.body);
-      res.status(200).send({ message: "New user created successfully!" });
+      res.status(201).send({ message: "New user created successfully!" });
     } catch (err) {
       next(err);
     }
