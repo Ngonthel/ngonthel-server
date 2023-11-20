@@ -41,9 +41,9 @@ class HistoryController {
       const { time, distance, avgSpeed, trackLine } = req.body;
 
       // Points formula
-      const D = (6 / 10) * distance; // 60% from distance (meters)
-      const T = (4 / 10) * time; // 40% from time (seconds)
-      const point = (D * T) / 10;
+      const D = distance; // (meters)
+      const T = time; // (seconds)
+      const point = Math.round((D / T) * 100);
 
       // Calories formula
       const MET = avgSpeed < 4.444 ? 4 : avgSpeed >= 4.444 && avgSpeed <= 5.277 ? 6 : 8;
