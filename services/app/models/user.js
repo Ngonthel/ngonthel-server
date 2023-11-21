@@ -64,7 +64,7 @@ class User {
         totalTime: 0,
       });
 
-      return data;
+      return newUser.insertedId;
     } catch (err) {
       throw err;
     }

@@ -38,6 +38,18 @@ class HistoryController {
     try {
       const { id } = req.params;
       const { time, distance, avgSpeed, trackLine } = req.body;
+      if (!time) {
+        throw { name: "validation_error", message: "Time is required!" };
+      }
+      if (!distance) {
+        throw { name: "validation_error", message: "Distance is required!" };
+      }
+      if (!avgSpeed) {
+        throw { name: "validation_error", message: "Average speed is required!" };
+      }
+      if (!trackLine) {
+        throw { name: "validation_error", message: "Track line is required!" };
+      }
 
       // Points formula
       const D = (6 / 10) * distance; // 60% from distance (meters)
@@ -58,6 +70,11 @@ class HistoryController {
           $currentDate: { lastModifies: true },
         }
       );
+
+      if (history.modifiedCount <= 0) {
+        throw { name: "not_found", message: "Error history not found" };
+      }
+
       const format = await Profile.stopGoes(req, res, next);
       res.status(200).json({
         acknowledged: history.acknowledged,
@@ -65,7 +82,7 @@ class HistoryController {
         time: format.date,
       });
     } catch (err) {
-      throw err;
+      next(err);
     }
   }
 

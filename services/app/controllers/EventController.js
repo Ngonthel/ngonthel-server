@@ -35,8 +35,8 @@ class EventController {
   static async createEvent(req, res, next) {
     try {
       const { name, from, dest, eventDate } = req.body;
-      if (!name || !from.altitude || !from.latitude || !from.longtitude || !dest.altitude || !dest.latitude || !dest.longtitude || !eventDate){
-        throw {name:"validation_error", message: "required data" }
+      if (!name || !from.altitude || !from.latitude || !from.longtitude || !dest.altitude || !dest.latitude || !dest.longtitude || !eventDate) {
+        throw { name: "validation_error", message: "required data" };
       }
 
       const eventCode = name.split(" ").join("-").toLowerCase() + `-${Math.floor(Math.random() * 100)}`;
@@ -69,7 +69,7 @@ class EventController {
         }
       );
 
-      if (updateEvent.acknowledged) {
+      if (updateEvent.modifiedCount > 0) {
         res.status(200).json({ message: `Event with id "${id}" set to inactive!` });
       } else {
         res.status(200).json({ message: `No event were updated!` });
