@@ -44,14 +44,6 @@ class UserController {
     }
   }
 
-  static async google(req, res, next) {
-    try {
-      //
-    } catch (err) {
-      next(err);
-    }
-  }
-
   static async getUser(req, res, next) {
     try {
       const { id } = req.user;
