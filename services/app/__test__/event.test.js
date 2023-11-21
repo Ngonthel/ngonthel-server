@@ -231,10 +231,11 @@ describe("GET /events/params", () => {
       });
   });
 });
+
 describe("GET /events/params", () => {
   it("failed", () => {
     return request(app)
-      .get(`/events/p`)
+      .get(`/events/8392183901289021`)
       .set({
         access_token,
       })
@@ -248,7 +249,7 @@ describe("GET /events/params", () => {
 });
 
 describe("GET /events/?filter=query", () => {
-  it("success", () => {
+  it("success query active", () => {
     return request(app)
       .get(`/events/?filter=active`)
       .set({
@@ -261,7 +262,34 @@ describe("GET /events/?filter=query", () => {
       });
   });
 });
-
+describe("GET /events/?filter=query", () => {
+  it("success query my-event", () => {
+    return request(app)
+      .get(`/events/?filter=my-event`)
+      .set({
+        access_token,
+      })
+      .then((response) => {
+        const data = response["_body"];
+        expect(response.status).toBe(200);
+        expect(data).toBeInstanceOf(Array);
+      });
+  });
+});
+describe("GET /events/?filter=query", () => {
+  it("success query inactive", () => {
+    return request(app)
+      .get(`/events/?filter=inactive`)
+      .set({
+        access_token,
+      })
+      .then((response) => {
+        const data = response["_body"];
+        expect(response.status).toBe(200);
+        expect(data).toBeInstanceOf(Array);
+      });
+  });
+});
 describe("GET /events/?filter=query", () => {
   it("failed query availabel", () => {
     return request(app)

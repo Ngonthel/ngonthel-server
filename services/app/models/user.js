@@ -17,14 +17,9 @@ class User {
   }
 
   static async findByPk(id) {
-    try {
-      const collection = await this.users();
-      const findUserById = await collection.findOne({ _id: new ObjectId(id) });
-
-      return findUserById;
-    } catch (err) {
-      next(err);
-    }
+    const collection = await this.users();
+    const findUserById = await collection.findOne({ _id: new ObjectId(id) });
+    return findUserById;
   }
 
   static async create({ name, email, password, username, phoneNumber, address, gender }) {
@@ -37,7 +32,7 @@ class User {
       } else if (password && password.length < 8) {
         throw { name: "validation_error", message: "Minimum length of password is 8" };
       } else if (!username) {
-        throw { name: "validation_error", message: "Username is required" };
+        throw { name: "validation_error", message: "Username is required!" };
       }
 
       const userCollection = await this.users();
@@ -74,6 +69,9 @@ class User {
     try {
       const collection = await this.users();
       const findUserByEmail = await collection.findOne({ email });
+      if (!findUserByEmail) {
+        throw { name: "auth_error", message: "Invalid Email / Password!" };
+      }
 
       return findUserByEmail;
     } catch (err) {

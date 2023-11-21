@@ -13,6 +13,8 @@ const account = {
   gender: "Male",
 };
 
+let access_token;
+
 beforeAll(async () => {
   await connect();
   await User.create(account);
@@ -32,6 +34,8 @@ describe("POST /login", () => {
       password: account.password,
     };
     const response = await request(app).post("/login").send(body);
+
+    access_token = response.body.access_token;
 
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Object);
@@ -169,5 +173,53 @@ describe("POST /register", () => {
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Password is required!");
+  });
+
+  it("Should fail, if username is not provided", async () => {
+    const register = {
+      email: "admin3@mail.com",
+      password: "12345678",
+      name: "Admin 3",
+      phoneNumber: "081123456789",
+      address: "Indonesia",
+      gender: "Male",
+    };
+
+    const response = await request(app).post("/register").send(register);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toBeInstanceOf(Object);
+    expect(response.body).toHaveProperty("message", "Username is required!");
+  });
+});
+
+describe("GET /users", () => {
+  it("Should return user and profile info, if user already logged in", async () => {
+    const response = await request(app).get("/users").set({ access_token });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Object);
+    expect(response.body).toHaveProperty("user", expect.any(Object));
+    expect(response.body).toHaveProperty("profile", expect.any(Object));
+    expect(response.body.user).toHaveProperty("_id", expect.any(String));
+    expect(response.body.user).toHaveProperty("email", expect.any(String));
+    expect(response.body.user).toHaveProperty("password", expect.any(String));
+    expect(response.body.profile).toHaveProperty("_id", expect.any(String));
+    expect(response.body.profile).toHaveProperty("userId", expect.any(String));
+    expect(response.body.profile).toHaveProperty("name", expect.any(String));
+    expect(response.body.profile).toHaveProperty("username", expect.any(String));
+    expect(response.body.profile).toHaveProperty("phoneNumber", expect.any(String));
+    expect(response.body.profile).toHaveProperty("address", expect.any(String));
+    expect(response.body.profile).toHaveProperty("gender", expect.any(String));
+    expect(response.body.profile).toHaveProperty("totalPoint", expect.any(Number));
+    expect(response.body.profile).toHaveProperty("totalDistance", expect.any(Number));
+    expect(response.body.profile).toHaveProperty("totalTime", expect.any(Number));
+  });
+
+  it("Should fail, if user is not logged in", async () => {
+    const response = await request(app).get("/users");
+    expect(response.status).toBe(401);
+    expect(response.body).toBeInstanceOf(Object);
+    expect(response.body).toHaveProperty("message", "Invalid token!");
   });
 });

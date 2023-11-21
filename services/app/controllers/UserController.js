@@ -17,9 +17,6 @@ class UserController {
       }
 
       const findUser = await User.findOne(email);
-      if (!findUser) {
-        throw { name: "auth_error", message: "Invalid Email / Password!" };
-      }
 
       const isPasswordValid = verifyPassword(password, findUser.password);
       if (!isPasswordValid) {

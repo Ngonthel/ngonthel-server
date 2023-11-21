@@ -30,13 +30,7 @@ class EventController {
   static async readEventDetail(req, res, next) {
     try {
       const { id } = req.params;
-      if (!id) {
-        throw { name: "validation_error", message: "params cannot null" };
-      }
       const event = await Event.findByPk(new ObjectId(id));
-      if (!id) {
-        throw { name: "validation_error", message: "invalid params" };
-      }
       res.status(200).json(event);
     } catch (err) {
       next(err);
@@ -72,23 +66,14 @@ class EventController {
     try {
       const { id } = req.params;
 
-      if (!id) {
-        throw { name: "validation_error", message: "params cannot null" };
-      }
-
-      const updateEvent = await Event.update(
+      await Event.update(
         { _id: new ObjectId(id) },
         {
           $set: { isActive: false },
           $currentDate: { lastModified: true },
         }
       );
-
-      if (updateEvent.modifiedCount > 0) {
         res.status(200).json({ message: `Event with id "${id}" set to inactive!` });
-      } else {
-        res.status(200).json({ message: `No event were updated!` });
-      }
     } catch (err) {
       next(err);
     }
