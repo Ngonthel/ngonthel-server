@@ -5,7 +5,9 @@ class EventController {
   static async readEvents(req, res, next) {
     try {
       let { filter } = req.query;
-
+      if (!filter) {
+        throw { name: "validation_error", message: "query cannot null" };
+      }
       if (filter === "my-event") {
         const { id } = req.user;
         filter = { createdBy: id };
@@ -13,9 +15,12 @@ class EventController {
         filter = { isActive: true };
       } else if (filter === "inactive") {
         filter = { isActive: false };
+      } else {
+        throw { name: "validation_error", message: "query cannot availabel" };
       }
 
       const events = await Event.findAll(filter);
+      console.log(events);
       res.status(200).json(events);
     } catch (err) {
       next(err);
@@ -25,7 +30,13 @@ class EventController {
   static async readEventDetail(req, res, next) {
     try {
       const { id } = req.params;
+      if (!id) {
+        throw { name: "validation_error", message: "params cannot null" };
+      }
       const event = await Event.findByPk(new ObjectId(id));
+      if (!id) {
+        throw { name: "validation_error", message: "invalid params" };
+      }
       res.status(200).json(event);
     } catch (err) {
       next(err);
@@ -41,7 +52,6 @@ class EventController {
 
       const eventCode = name.split(" ").join("-").toLowerCase() + `-${Math.floor(Math.random() * 100)}`;
       const { id } = req.user;
-
       const event = await Event.create({
         name,
         eventCode,
@@ -52,7 +62,7 @@ class EventController {
         dest,
       });
 
-      res.status(201).json({ message: `New event "${name}" created successfully!` });
+      res.status(201).json({ message: `New event "${name}" created successfully!`, eventId: String(event.insertedId) });
     } catch (err) {
       next(err);
     }
@@ -61,6 +71,11 @@ class EventController {
   static async patchEventstatus(req, res, next) {
     try {
       const { id } = req.params;
+
+      if (!id) {
+        throw { name: "validation_error", message: "params cannot null" };
+      }
+
       const updateEvent = await Event.update(
         { _id: new ObjectId(id) },
         {

@@ -5,11 +5,11 @@ const UserController = require("../controllers/UserController");
 const HistoryController = require("../controllers/HistoryController");
 const EventController = require("../controllers/EventController");
 const { updateEventAuthorization } = require("../middlewares/authorization");
-const ProfileController = require('../controllers/ProfileController')
+const ProfileController = require("../controllers/ProfileController");
 
 router.post("/login", UserController.login);
 router.post("/register", UserController.register);
-router.post("/google", UserController.google);
+// router.post("/google", UserController.google);
 
 router.use(authentication); // Authentication
 
@@ -28,7 +28,6 @@ router.post("/events", EventController.createEvent);
 router.get("/events/:id", EventController.readEventDetail);
 router.patch("/events/:id", updateEventAuthorization, EventController.patchEventstatus);
 
-
 // LeaderBoard
-router.get('/leaderboard',ProfileController.leaderboard)
+router.get("/leaderboard", ProfileController.leaderboard);
 module.exports = router;
