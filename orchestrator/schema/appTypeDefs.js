@@ -41,6 +41,7 @@ const appTypeDefs = `#graphql
     trackLine: [TrackLine],
     endDate: String,
     lastModifies: String
+    point: Int
   }
 
   type TrackLine {
