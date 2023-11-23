@@ -8,35 +8,35 @@ class History {
   }
 
   static async findAll(where) {
-    try {
-      const collection = await this.collection();
-      const histories = await collection.find(where).toArray();
-      return histories;
-    } catch (err) {
-      throw err;
-    }
+    // try {
+    const collection = await this.collection();
+    const histories = await collection.find(where).toArray();
+    return histories;
+    // } catch (err) {
+    //   throw err;
+    // }
   }
 
   static async create(args) {
-    try {
-      const collection = await this.collection();
-      const history = await collection.insertOne(args);
+    // try {
+    const collection = await this.collection();
+    const history = await collection.insertOne(args);
 
-      return history;
-    } catch (err) {
-      throw err;
-    }
+    return history;
+    // } catch (err) {
+    //   throw err;
+    // }
   }
 
   static async update(where, set) {
-    try {
-      const collection = await this.collection();
-      const history = await collection.updateOne(where, set);
+    // try {
+    const collection = await this.collection();
+    const history = await collection.updateOne(where, set);
 
-      return history;
-    } catch (err) {
-      throw err;
-    }
+    return history;
+    // } catch (err) {
+    //   throw err;
+    // }
   }
 
   static async findByPk(id) {
