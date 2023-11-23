@@ -45,16 +45,16 @@ class UserController {
   }
 
   static async getUser(req, res, next) {
-    try {
-      const { id } = req.user;
+    // try {
+    const { id } = req.user;
 
-      const user = await User.findByPk(id);
-      const profile = await Profile.findOne({ userId: user._id });
+    const user = await User.findByPk(id);
+    const profile = await Profile.findOne({ userId: user._id });
 
-      res.status(200).json({ user, profile });
-    } catch (err) {
-      next(err);
-    }
+    res.status(200).json({ user, profile });
+    // } catch (err) {
+    //   next(err);
+    // }
   }
 }
 

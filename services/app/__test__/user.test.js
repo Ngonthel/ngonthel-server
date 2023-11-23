@@ -79,7 +79,6 @@ describe("POST /login", () => {
       email: account.email,
     };
     const response = await request(app).post("/login").send(body);
-    console.log(response.status, response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Password is required!");

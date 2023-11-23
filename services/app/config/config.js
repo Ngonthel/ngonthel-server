@@ -12,9 +12,9 @@ const connect = async () => {
     await client.connect();
     db = client.db("ngontheldb");
 
-    console.log("Connected successfully to mongo server");
+    // console.log("Connected successfully to mongo server");
   } catch (err) {
-    console.log(`Error connect config/config.js:`, err);
+    // console.log(`Error connect config/config.js:`, err);
   }
 };
 

@@ -71,7 +71,6 @@ afterAll(async () => {
 describe("GET /histories", () => {
   it("Should return array of objects (event)", async () => {
     const response = await request(app).get("/histories").set({ access_token });
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Array);
@@ -89,7 +88,6 @@ describe("GET /histories", () => {
 
   it("Should fail, if user logged in with fake access_token", async () => {
     const response = await request(app).post("/histories").set({ access_token: "fake-access-token" });
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(401);
     expect(response.body).toBeInstanceOf(Object);
@@ -98,7 +96,6 @@ describe("GET /histories", () => {
 
   it("Should fail if user is not logged in", async () => {
     const response = await request(app).get("/histories");
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(401);
     expect(response.body).toBeInstanceOf(Object);
@@ -109,7 +106,6 @@ describe("GET /histories", () => {
 describe("POST /histories", () => {
   it("Should success, if user create history when logged in", async () => {
     const response = await request(app).post("/histories").set({ access_token });
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(201);
     expect(response.body).toBeInstanceOf(Object);
@@ -119,7 +115,6 @@ describe("POST /histories", () => {
 
   it("Should fail, if user logged in with fake access_token", async () => {
     const response = await request(app).post("/histories").set({ access_token: "fake-access-token" });
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(401);
     expect(response.body).toBeInstanceOf(Object);
@@ -128,7 +123,6 @@ describe("POST /histories", () => {
 
   it("Should fail if user is not logged in", async () => {
     const response = await request(app).post("/histories");
-    console.log(response.body, "RESPONSE BODY");
 
     expect(response.status).toBe(401);
     expect(response.body).toBeInstanceOf(Object);
@@ -162,7 +156,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/123456789012345678901234`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(404);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Error history not found");
@@ -176,7 +169,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/${historyId}`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Time is required!");
@@ -190,7 +182,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/${historyId}`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Distance is required!");
@@ -204,7 +195,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/${historyId}`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Average speed is required!");
@@ -218,7 +208,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/${historyId}`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Track line is required!");
@@ -233,7 +222,6 @@ describe("PUT /histories/:id", () => {
     };
 
     const response = await request(app).put(`/histories/sadlfjkh1012`).send(body).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "input must be a 24 character hex string, 12 byte Uint8Array, or an integer");
@@ -270,7 +258,6 @@ describe("GET /histories/:id", () => {
 
   it("Should fail, if the searched id is not exists", async () => {
     const response = await request(app).get(`/histories/123456789012345678901234`).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(404);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "Error history not found!");
@@ -278,7 +265,6 @@ describe("GET /histories/:id", () => {
 
   it("Should fail, if the id searched does not match BSON type ID", async () => {
     const response = await request(app).get(`/histories/skdj13`).set({ access_token });
-    console.log(response.body);
     expect(response.status).toBe(400);
     expect(response.body).toBeInstanceOf(Object);
     expect(response.body).toHaveProperty("message", "input must be a 24 character hex string, 12 byte Uint8Array, or an integer");

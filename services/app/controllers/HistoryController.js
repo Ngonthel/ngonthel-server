@@ -4,34 +4,34 @@ const { ObjectId } = require("mongodb");
 
 class HistoryController {
   static async readHistories(req, res, next) {
-    try {
-      const { id } = req.user;
-      const histories = await History.findAll({ userId: new ObjectId(id) });
+    // try {
+    const { id } = req.user;
+    const histories = await History.findAll({ userId: new ObjectId(id) });
 
-      res.status(200).json(histories);
-    } catch (err) {
-      next(err);
-    }
+    res.status(200).json(histories);
+    // } catch (err) {
+    //   next(err);
+    // }
   }
 
   static async createHistory(req, res, next) {
-    try {
-      const { id } = req.user;
-      const history = await History.create({
-        userId: new ObjectId(id),
-        startDate: new Date(),
-        endDate: null,
-        time: 0,
-        distance: 0,
-        avgSpeed: 0,
-        point: 0,
-        trackLine: [],
-      });
+    // try {
+    const { id } = req.user;
+    const history = await History.create({
+      userId: new ObjectId(id),
+      startDate: new Date(),
+      endDate: null,
+      time: 0,
+      distance: 0,
+      avgSpeed: 0,
+      point: 0,
+      trackLine: [],
+    });
 
-      res.status(201).json(history);
-    } catch (err) {
-      next(err);
-    }
+    res.status(201).json(history);
+    // } catch (err) {
+    //   next(err);
+    // }
   }
 
   static async updateHistory(req, res, next) {

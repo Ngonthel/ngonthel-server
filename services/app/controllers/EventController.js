@@ -20,7 +20,6 @@ class EventController {
       }
 
       const events = await Event.findAll(filter);
-      console.log(events);
       res.status(200).json(events);
     } catch (err) {
       next(err);
@@ -63,20 +62,20 @@ class EventController {
   }
 
   static async patchEventstatus(req, res, next) {
-    try {
-      const { id } = req.params;
+    // try {
+    const { id } = req.params;
 
-      await Event.update(
-        { _id: new ObjectId(id) },
-        {
-          $set: { isActive: false },
-          $currentDate: { lastModified: true },
-        }
-      );
-      res.status(200).json({ message: `Event with id "${id}" set to inactive!` });
-    } catch (err) {
-      next(err);
-    }
+    await Event.update(
+      { _id: new ObjectId(id) },
+      {
+        $set: { isActive: false },
+        $currentDate: { lastModified: true },
+      }
+    );
+    res.status(200).json({ message: `Event with id "${id}" set to inactive!` });
+    // } catch (err) {
+    //   next(err);
+    // }
   }
 }
 
